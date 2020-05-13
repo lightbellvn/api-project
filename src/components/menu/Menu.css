@@ -1,0 +1,4 @@
+.active {
+    border: 1px dashed tomato !important;
+    background-color: rgba(175, 177, 165, 0.753);
+}
