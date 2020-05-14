@@ -1,4 +1,12 @@
 .active {
-    border: 1px dashed tomato !important;
-    background-color: rgba(175, 177, 165, 0.753);
+    border: 1px dashed rgb(241, 232, 230) !important;
+    background-color: rgba(235, 250, 27, 0.87);
+    border-radius: 10px;
+
+}
+.bg-beauty {
+    background-color: rgba(108, 240, 227, 0.658);
+}
+.border-x{
+    border-radius: 10px;
 }

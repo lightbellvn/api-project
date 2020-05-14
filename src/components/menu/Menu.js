@@ -55,9 +55,9 @@ class Menu extends Component {
     }
     render() {
         return (
-            <div>
-                <nav className="navbar navbar-expand navbar-light bg-light">
-                    <Link className='navbar-brand text-danger' to='/' >CALL API</Link>
+            <div className=''>
+                <nav className="navbar navbar-expand navbar-light bg-beauty">
+                    <Link className='navbar-brand text-danger bg-light px-2 py-2 border-x' to='/' >CALL API</Link>
                     <ul className="nav navbar-nav">
                         {this.showMenus(menus)}
                     </ul>
