@@ -3,8 +3,8 @@ import ProductList from "../../components/productList/ProductList";
 import ProductItem from "../../components/productItem/ProductItem";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import axios from "axios";
 import callApi from "./../../utils/apiCaller";
+import * as actions from "./../../redux/actions";
 
 class ProductListPage extends Component {
   constructor(props) {
@@ -15,15 +15,11 @@ class ProductListPage extends Component {
   }
 
   componentDidMount() {
-    callApi("products", "GET", null).then((res) => {
-      this.setState({
-        products: res.data,
-      });
-    });
+    this.props.fetchAllProducts()
   }
 
   onDelete = (id) => {
-    let products = this.state.products;
+    let products = this.props.products;
     callApi(`products/${id}`, "DELETE", null).then((res) => {
       if (res.status === 200) {
         let index = this.findIndex(products, id);
@@ -48,7 +44,7 @@ class ProductListPage extends Component {
   };
 
   render() {
-    let { products } = this.state;
+    let { products } = this.props;
 
     let showProduct = (products) => {
       let result = null;
@@ -81,7 +77,14 @@ class ProductListPage extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    // products: state.products
+    products: state.products,
   };
 };
-export default connect(mapStateToProps, null)(ProductListPage);
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    fetchAllProducts: () => {
+      dispatch(actions.fetchProductRequest());
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ProductListPage);

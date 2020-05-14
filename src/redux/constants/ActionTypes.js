@@ -1,1 +1,6 @@
-import * as types from './../constants/ActionTypes'
+
+export const FETCH_PRODUCT = 'FETCH_PRODUCT'
+export const SAVE_PRODUCT = 'SAVE_PRODUCT'
+export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+export const ADD_PRODUCT = 'FETCH_PRODUCT'
+export const TOGGLE_STATUS = 'FETCH_PRODUCT'
