@@ -18,6 +18,8 @@ export default class ActionPage extends Component {
          name,
          price,
          status
+      }).then(res => {
+         this.props.history.goBack()
       })
    };
 
