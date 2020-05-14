@@ -29,10 +29,10 @@ class ProductListPage extends Component {
         let index = this.findIndex(products, id);
         if (index !== -1) {
           products.splice(index, 1);
-          this.setState({
-            products,
-          });
         }
+        this.setState({
+          products,
+        });
       }
     });
   };

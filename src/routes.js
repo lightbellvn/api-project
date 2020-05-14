@@ -22,9 +22,9 @@ const routes = [
         main: ({history})=><ActionPage history={history} />
     },
     {
-        path: '/:id/edit',
+        path: '/product/:id/edit',
         exact: false,
-        main: ()=><ActionPage />
+        main: ({match, history})=><ActionPage match={match} history={history} />
     },
     {
         path: '',
