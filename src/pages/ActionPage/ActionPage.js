@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import callApi from "./../../utils/apiCaller";
+import * as actions from './../../redux/actions'
+import { connect } from "react-redux";
 
-export default class ActionPage extends Component {
+ class ActionPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,35 +17,25 @@ export default class ActionPage extends Component {
     let { match } = this.props;
     if (match) {
       let id = match.params.id;
+      console.log(id);
       
+      this.props.editProduct(id)
       
-      callApi(`products/${id}`, "GET", null).then(res => {
-         let data = res.data
-         console.log(data);
-         
-        this.setState({
-          id: data.id,
-          name: data.name,
-          price:data.price,
-          status: data.status,
-        });
-      });
     }
   }
   onSave = (e) => {
     e.preventDefault();
     let { id, name, price, status } = this.state;
     let data = { name, price, status };
+    let product = {id, name, price, status };
     if (id) {
        callApi(`products/${id}`, "PUT", data).then((res) => {
-         this.props.history.goBack();
-       });
-       
+      });
+      
     }else{
-
-       callApi("products", "POST", data).then((res) => {
-         this.props.history.goBack();
-       });
+      
+      this.props.addProduct(product)
+      this.props.history.goBack();
     }
   };
 
@@ -109,3 +101,16 @@ export default class ActionPage extends Component {
     );
   }
 }
+const mapDispatchToProps = (dispatch,props)=> {
+  return {
+    addProduct : product => {
+      dispatch(actions.addProductRequest(product))
+    },
+    editProduct : id => {
+      dispatch(actions.getProductToEditRequest(id))
+    },
+  
+  }
+}
+
+export default connect(null,mapDispatchToProps) (ActionPage);

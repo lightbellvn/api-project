@@ -9,9 +9,7 @@ import * as actions from "./../../redux/actions";
 class ProductListPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      products: [],
-    };
+    
   }
 
   componentDidMount() {
@@ -19,18 +17,19 @@ class ProductListPage extends Component {
   }
 
   onDelete = (id) => {
-    let products = this.props.products;
-    callApi(`products/${id}`, "DELETE", null).then((res) => {
-      if (res.status === 200) {
-        let index = this.findIndex(products, id);
-        if (index !== -1) {
-          products.splice(index, 1);
-        }
-        this.setState({
-          products,
-        });
-      }
-    });
+    // let products = this.props.products;
+    // callApi(`products/${id}`, "DELETE", null).then((res) => {
+    //   if (res.status === 200) {
+    //     let index = this.findIndex(products, id);
+    //     if (index !== -1) {
+    //       products.splice(index, 1);
+    //     }
+    //     this.setState({
+    //       products,
+    //     });
+    //   }
+    // });
+    this.props.deleteProduct(id)
   };
 
   findIndex = (products, id) => {
@@ -84,6 +83,9 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     fetchAllProducts: () => {
       dispatch(actions.fetchProductRequest());
+    },
+    deleteProduct: (id) => {
+      dispatch(actions.deleteProductRequest(id));
     },
   };
 };
