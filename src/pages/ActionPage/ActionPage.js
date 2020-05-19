@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import callApi from "./../../utils/apiCaller";
-import * as actions from './../../redux/actions'
+import * as actions from "./../../redux/actions";
 import { connect } from "react-redux";
 
- class ActionPage extends Component {
+
+class ActionPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,24 +18,34 @@ import { connect } from "react-redux";
     let { match } = this.props;
     if (match) {
       let id = match.params.id;
-      console.log(id);
       
-      this.props.editProduct(id)
-      
+
+      this.props.editProduct(id);
     }
   }
+  UNSAFE_componentWillReceiveProps (nextProps){
+    
+    if (nextProps && nextProps.itemEditing) {
+     
+      let { id, name, price, status } = this.props.itemEditing;
+      this.setState({
+        id,
+        name,
+        price,
+        status,
+      });
+    }
+  };
   onSave = (e) => {
     e.preventDefault();
     let { id, name, price, status } = this.state;
-    let data = { name, price, status };
-    let product = {id, name, price, status };
+    
+    let product = { id, name, price, status };
     if (id) {
-       callApi(`products/${id}`, "PUT", data).then((res) => {
-      });
-      
-    }else{
-      
-      this.props.addProduct(product)
+      this.props.updateProduct(product)
+      this.props.history.goBack();
+    } else {
+      this.props.addProduct(product);
       this.props.history.goBack();
     }
   };
@@ -50,7 +61,7 @@ import { connect } from "react-redux";
   };
 
   render() {
-     let {name, price, status} = this.state;
+    let { name, price, status } = this.state;
     return (
       <div className="container text-light col-sm-5 bg-warning">
         <div className="card bg-danger h2 text-center">ADD NEW PRODUCT</div>
@@ -77,18 +88,17 @@ import { connect } from "react-redux";
               placeholder="Enter price"
               name="price"
               onChange={this.onChange}
-              value= {price}
+              value={price}
             />
           </div>
           <div className="form-group form-check">
             <label className="form-check-label">
               <input
                 className="form-check-input"
-                
                 type="checkbox"
                 name="status"
                 onChange={this.onChange}
-                checked = {status}
+                checked={status}
               />{" "}
               Available
             </label>
@@ -101,16 +111,23 @@ import { connect } from "react-redux";
     );
   }
 }
-const mapDispatchToProps = (dispatch,props)=> {
+const mapStateToProps = (state) => {
   return {
-    addProduct : product => {
-      dispatch(actions.addProductRequest(product))
+    itemEditing: state.itemEditing
+  };
+};
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    addProduct: (product) => {
+      dispatch(actions.addProductRequest(product));
     },
-    editProduct : id => {
-      dispatch(actions.getProductToEditRequest(id))
+    editProduct: (id) => {
+      dispatch(actions.getProductToEditRequest(id));
     },
-  
-  }
-}
+    updateProduct: (product) => {
+      dispatch(actions.updateProductRequest(product));
+    },
+  };
+};
 
-export default connect(null,mapDispatchToProps) (ActionPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ActionPage);

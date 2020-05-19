@@ -55,3 +55,16 @@ export const getProductToEdit = (product) => {
     product,
   };
 };
+export const updateProductRequest = (product) => {
+    return dispatch => {
+      return callApi(`products/${product.id}`, "PUT", product).then((res) => {
+        dispatch(updateProduct(res.data));
+      });
+    };
+  };
+export const updateProduct = (product) => {
+  return {
+    type: types.UPDATE_PRODUCT,
+    product,
+  };
+};
